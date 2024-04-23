@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    volumes:
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+    environment:
+      - RABBITMQ_CONFIG_FILE=/etc/rabbitmq/rabbitmq.conf
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - rabbit
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 20s
+      retries: 5
+  retrievepath:
+    build: retrieve/.
+    networks:
+      - rabbit
+    deploy:
+      mode: replicated
+      replicas: 1
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+        restart: true
+  processdata:
+    build: process/.
+    networks:
+      - rabbit
+    deploy:
+      mode: replicated
+      replicas: 1
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+        restart: true
+  plot:
+    build: plot/.
+    networks:
+      - rabbit
+    deploy:
+      mode: replicated
+      replicas: 1
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+        restart: true
+         
+
+networks:
+  rabbit:
+    driver: overlay
+    attachable: true
+
