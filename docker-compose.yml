@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 
 services:
   rabbitmq:
@@ -17,32 +17,35 @@ services:
       retries: 3
   retrievepath:
     image: localhost:5000/my_rpimage:latest
-    restart: false
     networks:
       - rabbit
     deploy:
       mode: replicated
       replicas: 1
+      restart_policy:
+        condition: none
     depends_on:
       - rabbitmq
   processdata:
     image: localhost:5000/my_proimage:latest
-    restart: false
     networks:
       - rabbit
     deploy:
       mode: replicated
       replicas: 2
+      restart_policy:
+        condition: none
     depends_on:
       - rabbitmq
   plot:
     image: localhost:5000/my_plotimage:latest
-    restart: false
     networks:
       - rabbit
     deploy:
       mode: replicated
       replicas: 1
+      restart_policy:
+        condition: none
     depends_on:
       - rabbitmq
 
@@ -50,4 +53,4 @@ networks:
   rabbit:
     driver: overlay
     attachable: true
-      
+
