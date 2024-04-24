@@ -32,6 +32,32 @@ https://docs.docker.com/engine/swarm/swarm-tutorial/
 
 # 3: Deploy service on the docker swarm by using docker-compose.yml file: 
 
+`docker run -d -p 5000:5000 -v my_registry:/var/lib/registry --name registry registry:latest` # run registry
+
+`docker build -t rpimage .` # build the images and tag them
+
+`docker build -t proimage .`
+
+`docker build -t plotimage .`
+
+`docker tag rpimage localhost:5000/my_rpimage`
+
+`docker tag rpimage localhost:5000/my_proimage`
+
+`docker tag rpimage localhost:5000/my_plotimage`
+
+`docker tag rabbitmq localhost:5000/my_plotimage`
+
+`docker push localhost:5000/my_rpimage`
+
+``
+
+``
+
+``
+
+``
+
 
 
 
