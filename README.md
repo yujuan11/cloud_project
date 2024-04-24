@@ -46,17 +46,28 @@ https://docs.docker.com/engine/swarm/swarm-tutorial/
 
 `docker tag rpimage localhost:5000/my_plotimage`
 
-`docker tag rabbitmq localhost:5000/my_plotimage`
+`docker tag rabbitmq localhost:5000/rabbitmq:3-management`
 
 `docker push localhost:5000/my_rpimage`
 
-``
+`docker push localhost:5000/my_proimage`
 
-``
+`docker push localhost:5000/my_plotimage`
 
-``
+`docker push localhost:5000/rabbitmq:3-management`
 
-``
+Go to ‘localhost:5000/v2/_catalog’ to see the image has been pushed to registry repository.
+Pull these images from registry in docker-compose.yml file
+
+use docker stack to deploy services on docker swarm:
+
+`docker stack deploy -c docker-compose.yml pro2`
+
+check the services : 
+
+`docker service ls`
+
+
 
 
 
